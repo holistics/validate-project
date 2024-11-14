@@ -1,0 +1,8 @@
+name: 'Validate AML'
+description: 'Validate AML Project'
+outputs:
+  validate_result:
+    description: 'Validation result'
+runs:
+  using: node20
+  main: 'dist/index.js'
