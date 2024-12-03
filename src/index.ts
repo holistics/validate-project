@@ -14,10 +14,14 @@ const HOLISTICS_HOST = process.env.HOLISTICS_HOST ?? 'https://secure.holistics.i
 const HOLISTICS_API_HOST = `${HOLISTICS_HOST}/api/v2`;
 
 async function submitValidate (commitOid: string, branchName: string) {
-  const url = `${HOLISTICS_API_HOST}/aml_studio/projects/submit_validate?commit_oid=${commitOid}&branch_name=${branchName}`;
+  const url = `${HOLISTICS_API_HOST}/aml_studio/projects/submit_validate`;
   const result = await fetch(url, {
     method: 'post',
     headers,
+    body: JSON.stringify({
+      commit_oid: commitOid,
+      branch_name: branchName,
+    }),
   });
   const status = result.status;
   const respond = await result.json();
