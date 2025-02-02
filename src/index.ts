@@ -58,8 +58,13 @@ async function polling(jobId: number) {
 async function run () {
   try {
     const ref = github.context.ref;
-    const branchName = ref.replace('refs/heads/', '');
-    const commitOid = github.context.sha;
+    const headRef = github.context.payload.pull_request?.head.ref;
+    const branchName = headRef ?? ref.replace('refs/heads/', '');
+    console.log(`Branch name: ${branchName}`);
+    const sha = github.context.sha;
+    const headSha = github.context.payload.pull_request?.head.sha;
+    const commitOid = headSha ?? sha;
+    console.log(`Commit OID: ${commitOid}`);
     const job = await submitValidate(commitOid, branchName);
     const result = await polling(job.id) as any;
     console.log(JSON.stringify(result, null, 2));
